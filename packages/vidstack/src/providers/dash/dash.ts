@@ -209,6 +209,8 @@ export class DASHController {
 
     this.#ctx.qualities[QualitySymbol.setAuto](true, trigger);
 
+    this.#ctx.$provider()?.setCurrentTime(0);
+
     const media = this.#instance.getVideoElement();
 
     // getting videos from manifest whose type is supported
@@ -393,6 +395,10 @@ export class DASHController {
     this.#clearRetryTimer();
     this.#currentTrack = null;
     this.#cueTracker = {};
+
+    if (this.#ctx.$provider()) {
+      this.#ctx.$provider()?.setCurrentTime(0);
+    }
   }
 
   onInstance(callback: DASHInstanceCallback) {
@@ -403,6 +409,10 @@ export class DASHController {
   loadSource(src: Src) {
     this.#reset();
     if (!isString(src.src)) return;
+
+    const provider = this.#ctx.$provider();
+    if (provider) provider.setCurrentTime(0);
+
     this.#instance?.attachSource(src.src);
   }
 

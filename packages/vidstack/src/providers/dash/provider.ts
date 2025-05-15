@@ -117,6 +117,8 @@ export class DASHProvider extends VideoProvider implements MediaProviderAdapter 
     this.appendSource(src as Src<string>, 'application/x-mpegurl');
     this.#controller.loadSource(src);
     this.currentSrc = src as Src<string>;
+
+    this.setCurrentTime(0);
   }
 
   /**
